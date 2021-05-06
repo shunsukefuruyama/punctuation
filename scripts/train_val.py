@@ -21,12 +21,12 @@ print()
 
 torch.cuda.empty_cache()
 
-with open('train_set.pickle', 'rb') as f:
+with open('/home/ubuntu/Development/punctuation/data/train_set.pickle', 'rb') as f:
     data = pickle.load(f)
 
 ids_no_punc_outer_adjusted, attention_mask_outer_adjusted, punc_mask_outer_adjusted, punc_mask_outer, tokenizer_train = data
 
-with open('val_set.pickle', 'rb') as f:
+with open('/home/ubuntu/Development/punctuation/data/val_set.pickle', 'rb') as f:
     data = pickle.load(f)
 
 ids_no_punc_outer_adjusted_val, attention_mask_outer_adjusted_val, punc_mask_outer_adjusted_val, punc_mask_outer_val, tokenizer_val = data
@@ -100,13 +100,13 @@ val_f1_weighted_list = []
 now = datetime.now()
 current_time = now.strftime("%m%d%H%M")
 
-folder = './val_results_' + current_time
+folder = '/home/ubuntu/Development/punctuation/val_results_' + current_time
 
 os.makedirs(folder, exist_ok=True)
 
 for epoch in range(epochs):
 
-    if patience_cnt <= 2:
+    if patience_cnt <= 4:
 
         loss_total = 0
 
@@ -223,10 +223,10 @@ for epoch in range(epochs):
             pickle.dump(val_f1_weighted_list, f)
 
     else:
-        print(f'3rd consecutive degrades observed at epoch {epoch}. So the best is epoch {epoch-3}', flush=True)
+        print(f'3rd consecutive degrades observed at epoch {epoch}. So the best is epoch {epoch-5}', flush=True)
         break
 
-torch.save(param_list[-4], folder + '/distilbert_result.pt')
+torch.save(param_list[-6], folder + '/distilbert_result.pt')
         
 now = datetime.now()
 current_time = now.strftime("%H:%M:%S")
